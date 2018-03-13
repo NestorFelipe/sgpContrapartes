@@ -1,0 +1,111 @@
+﻿@{
+                /**/
+
+                ViewBag.Title = "Inicio";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section TituloBanner{
+    Principal
+}
+
+
+<div id='jqxtabs'>
+    <ul style='margin-left: 20px;'>
+        <li>Registro de Contrapartes</li>
+        <li>Registro de CTF</li>
+    </ul>
+    <div>
+        <div id="map-canvas">
+
+            <div id="modelContraparte">
+
+                <div class="col-lg-12 col-md-12 text-left rowButton form-group">
+                    <button id="btn3" type="button" class="btn btn-default"> <h5 class="glyphicon glyphicon-plus imageButton"></h5>Agregar</button>
+                    <button id="btn2" type="button" class="btn btn-default"> <h5 class="glyphicon glyphicon-pencil imageButton"></h5>Editar</button>
+                    <button id="btn3" type="button" class="btn btn-default"> <h5 class="glyphicon glyphicon-remove imageButton"></h5>Eliminar</button>
+                    <button id="btn4" type="button" class="btn btn-default"> <h5 class="glyphicon glyphicon-list imageButton"></h5>Proyectos</button>
+
+                    <button id="btn2" type="button" class="btn btn-default"> <h5 class="glyphicon glyphicon-level-up imageButton"></h5>Recibo</button>
+                    <button id="btn3" type="button" class="btn btn-default"> <h5 class="glyphicon glyphicon-check imageButton"></h5>Aprobar</button>
+                    <button id="btn4" type="button" class="btn btn-default"> <h5 class="glyphicon glyphicon-book imageButton"></h5>Reportes</button>
+
+                    <button id="btn5" type="button" class="btn btn-default"> <h5 class="glyphicon glyphicon-log-out imageButton exitButton"></h5>Cerrar</button>
+                </div>
+
+                <div class="col-lg-12 col-md-12 rowPanel">
+                    <div id="gridContraparte" titulo="Listado de contrapartes registrados"></div>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+
+
+        var vModelaContraparte = function () {
+
+            var self = this;
+
+            self.MODELO_TABLA = ko.observable({});
+
+            self.Agregar = function () {
+                $("#popContraparte")._WinOpen();
+            }
+
+            self.Editar = function () {
+                $("#popContraparte")._WinOpen();
+
+            }
+
+            self.Eliminar = function () {
+
+            }
+
+            self.CerrarPop = function () {
+                $("#popContraparte")._WinClose();
+            }
+
+            self.Guardar = function () {
+
+            }
+
+        }
+
+        var modelContraparte = new vModelaContraparte();
+
+        var vColContraparte = [
+            { text: 'titulo1', datafield: 'field1', type: _type.string, align: _aling.center },
+            { text: 'titulo2', datafield: 'field2', type: _type.string, align: _aling.center },
+            { text: 'Fecha1', datafield: 'field3', type: _type.datetime, align: _aling.center, filtertype: _type.datetime, cellsformat: _format.dateTimeShort }
+        ];
+
+        $(function () {
+
+            ko.applyBindings(modelContraparte, document.getElementById("modelContraparte"));
+            $("#jqxtabs")._InitTab();
+            $("#gridContraparte")._CreaGrilla(vColContraparte, 'CAMPO_PK_LISTA');
+          // $("#popContraparte")._WinInit({ width: 500, height: 200 });
+
+            
+
+        })
+
+
+    </script>
+
+}

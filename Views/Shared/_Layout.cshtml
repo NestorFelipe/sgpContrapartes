@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contraparte @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Style", required: false)
+</head>
+<body>
+    <input id="apiUrlDes" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["apiUrlDes"]" />
+    <input id="apiUrlProd" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["apiUrlProd"]" />
+    <input id="apiUrlExt" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["apiUrlExt"]" />
+
+    <input id="apiUrlDesSEG" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["apiUrlDesSEG"]" />
+    <input id="apiUrlProdSEG" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["apiUrlProdSEG"]" />
+    <input id="apiUrlExtSEG" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["apiUrlExtSEG"]" />
+
+    <input id="rptUrlDes" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["rptUrlDes"]" />
+    <input id="rptUrlProd" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["rptUrlProd"]" />
+    <input id="rptUrlExt" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["rptUrlExt"]" />
+
+    <input id="urlImgseg" type="hidden" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["urlImgseg"]" />
+
+    <input id="__urlImageExcel" type="hidden" value="@Url.Content("~/Content/imagen/page_white_excel.png")" />
+
+    @*cabecera de mensajes*@
+    <div class="BgMessage" style="background: #304f69;">
+
+        <div class="alert alert-success text-center _mensajeAlerta" style="background-color:#243D18; display:none" role="alert" id="msgSucc" tipo="1">
+            <strong><span class="glyphicon glyphicon-ok-sign _mensajeAlerta" aria-hidden="true"></span></strong> <span style="color:white" id="txtSucces">La página tiene observaciones, para verlos haga </span> <a href="#" class="alert-link _msgAlerta">click aquí.</a>.
+        </div>
+        <div class="alert alert-info text-center _mensajeAlerta" style="background-color:#243D18; display:none" role="alert" id="msgInfo" tipo="4">
+            <strong><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></strong> <span style="color:white" id="txtWarnin">La página tiene observaciones, para verlos haga </span><a href="#" class="alert-link _msgAlerta">click aquí.</a>.
+        </div>
+        <div class="alert alert-warning text-center _mensajeAlerta" id="msgWarning" style="background-color:#243D18; display:none" role="alert" tipo="2">
+            <strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong> <span style="color:white" id="txtInfo">La página tiene observaciones, para verlos haga </span> <a href="#" class="alert-link _msgAlerta">click aquí.</a>.
+        </div>
+        <div class="alert alert-danger text-center _mensajeAlerta" style="background-color:#243D18; display:none" role="alert" id="msgError" tipo="3">
+            <strong><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></strong><span style="color:white" id="txtError">La página tiene observaciones, para verlos haga </span><a href="#" class="alert-link _msgAlerta">click aquí.</a>.
+        </div>
+    </div>
+
+    <div style="position: fixed;width: 100%;margin-top: 38px;z-index: 18100;">
+        @*cabecera banner y menu principal*@
+        <div class="navbar navbar-default" style="margin-bottom: 1px;background-color: black;">
+            <div class="navbar-header navbar-left" style="margin-right:25px">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background-color: #003366"></b><span style="color: white;font-size: 18px;font-style: italic;">Contraparte</span></a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="navbar-header navbar-right" style="margin-right:25px">
+                <ul class="nav navbar-nav">
+                    <li><span style="color:white; font-size:12px; margin-right:15px" class="navbar-text"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span><span id="_txtLogUsu">Login de usuario</span></span></li>
+                    <li><span style="color:white; font-size:12px" class="navbar-text"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><span id="_txtUsuario">Nombre de usuario</span></span></li>
+                    <li><span style="color:white; font-size:12px" class="navbar-text"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span><span id="_txtPerfil">Perfil</span></span></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background-color: #003366"><b class="glyphicon glyphicon-th" style="color:white; font-size:12px;"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="_goIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Inicio</a></li>
+                            <li><a href="#" id="_goChange"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>Cambiar Password</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" id="_goLoging"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        @*Menu principal del sistema*@
+        <nav style="margin-bottom:0;">
+            <div id='jqxMenu'></div>
+        </nav>
+    </div>
+
+    @*cuerpo de la pagina*@
+    <div class="panel-body">
+        <div class="panel panel-primary body-content" id="panel-body-shared" style="margin-top:128px">
+            <div class="panel-heading panelPrinciapl" style="position: fixed;width: 99.2%;z-index: 18099;">
+                <h5 class="panel-title glyphicon glyphicon-resize-small glyphicon-hand-right" style="z-index:1"></h5>
+                Contraparte - @RenderSection("TituloBanner", required: false)
+            </div>
+            <div class="panel-body" style="margin-top: 49px;">
+                @RenderBody()
+                @*loading*@
+                <div id="jqxLoader"></div>
+            </div>
+        </div>
+    </div>
+
+    @*pie de pagina*@
+    <footer class="footer">
+        <p class="text-center">&copy; @DateTime.Now.Year - MMAyA</p>
+    </footer>
+
+    @*Modal mensajes*@
+    <div class="modal fade" id="_dlgInformacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Información del sitio</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-2 text-right" id="_divIconMessage"><span class="glyphicon glyphicon-info-sign iconNoData" aria-hidden="true"></span></div>
+                        <div class="col-md-10"><span id="_txtMensajeModal"></span></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-ok" style="color:green" aria-hidden="true"></span>Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal mensaje confirmacion*@
+    <div class="modal fade" id="_modalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="    background-color: #ecf4fe;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Confirme la Operación</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-2 text-right"><span class="glyphicon glyphicon-question-sign" style="color:sandybrown; font-size: 30px" aria-hidden="true"></span></div>
+                        <div class="col-md-10"><span id="_txtMensajeConfirma"></span>  </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="_btnEjecutaConfirm" style="height: 28px;"><span class="glyphicon glyphicon-ok" style="color:green" aria-hidden="true"></span>Aceptar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="height: 28px;"><span class="glyphicon glyphicon-remove" style="color:red" aria-hidden="true"></span>Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var ___spMiles = "@System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator";
+        var ___spDecimales = "@System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator";
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqxwigets")
+    @Scripts.Render("~/bundles/jsMessager")
+    <script src="~/Scripts/_jsResponse.js"></script>
+    <script type="text/javascript">
+        var DATOS_USUARIO;
+        var data;
+        var controls;
+
+        if (localStorage.USUARIO) {
+            DATOS_USUARIO = jQuery.parseJSON(localStorage.USUARIO)
+            DATOS_USUARIO.Modulo = location.pathname.substring(1);
+        }
+
+        if (localStorage.MENU) {
+            var data = jQuery.parseJSON(localStorage.MENU)
+        }
+
+        if (localStorage.CONTROL) {
+            var controls = jQuery.parseJSON(localStorage.CONTROL)
+        }
+
+
+        function isF5(e) {
+            return e.which == 116;
+        }
+
+        function isCtrlR(e) {
+            return e.ctrlKey || e.which == 82;
+        }
+
+        function triggerReloadKeys(e) {
+            if (isF5(e) || isCtrlR(e)) {
+
+                var cookieName = 'frmAcces';
+                var cookieValue = localStorage.frmAcces;
+                var myDate = new Date();
+                myDate.setMonth(myDate.getMonth() + 12);
+                document.cookie = cookieName + "=" + cookieValue + ";expires=" + myDate + ";path=/";
+            }
+        }
+
+        $(document).on("keydown", triggerReloadKeys);
+
+        window.onunload = function () {
+
+            var cookieName = 'frmAcces';
+            var cookieValue = localStorage.frmAcces;
+            var myDate = new Date();
+            myDate.setMonth(myDate.getMonth() + 12);
+            document.cookie = cookieName + "=" + cookieValue + ";expires=" + myDate + ";path=/";
+        }
+
+        $(function () {
+
+            $.each(data, function (key, d) {
+                d.id = d.ID;
+            })
+
+            var source =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'id' },
+                        { name: 'PARENTID' },
+                        { name: 'TEXT' }
+                    ],
+                    id: 'id',
+                    localdata: data
+                };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            dataAdapter.dataBind();
+            var records = dataAdapter.getRecordsHierarchy('id', 'PARENTID', 'items', [{ name: 'TEXT', map: 'label' }]);
+
+            $('#jqxMenu').jqxMenu({
+                source: records, width: '100%',
+                theme: 'custom_ISAP',
+                mode: 'horizontal'
+            });
+            $("#jqxMenu ul").css('margin-left', 200);
+            $('#jqxMenu').on('itemclick', function (event) {
+
+                var elId = event.args.id;
+                var url = Enumerable.From(data).Where("$.ID == " + elId).FirstOrDefault();
+                if (url.URL == null) {
+                    return false;
+                }
+                var ruta = url.URL.split('/');
+                _GoPage(ruta[0], ruta[1]);
+
+            });
+
+            if (typeof (controls) != "undefined") {
+
+                for (var i = 0; i < controls.SEGV_CONTROLES_PERFIL.length; i++) {
+                    $("#" + controls.SEGV_CONTROLES_PERFIL[i].NOMBRE_OBJETO).remove()
+                }
+            }
+
+            $("#_txtLogUsu").text('')
+            $("#_txtLogUsu").text(DATOS_USUARIO.LOGIN);
+
+            $("#_txtUsuario").text('')
+            $("#_txtUsuario").text(DATOS_USUARIO.NOMBRE_USUARIO);
+
+            $("#_txtPerfil").text('');
+            $("#_txtPerfil").text(DATOS_USUARIO.PERFIL);
+
+            $("#_txtEntidad").text('');
+            $("#_txtEntidad").text(DATOS_USUARIO.ENTIDAD);
+
+            $("#_goIndex").on("click", function () {
+                if (typeof (localStorage.urlParent) != "undefined" && localStorage.urlParent.trim() != "") {
+
+                    var cookieName = 'frmAcces';
+                    var cookieValue = "SEG/SISTEMAS";
+                    var myDate = new Date();
+                    myDate.setMonth(myDate.getMonth() + 12);
+                    document.cookie = cookieName + "=" + cookieValue + ";expires=" + myDate + ";path=/";
+                    location.href = localStorage.urlParent
+
+                } else {
+                    _GoPage('Contraparte', 'inicio');
+                }
+
+            });
+
+            $("#_goLoging").on("click", function () {
+
+                localStorage.removeItem("Passport");
+                localStorage.removeItem("USUARIO");
+                localStorage.removeItem("key");
+                localStorage.removeItem("MENU");
+                localStorage.removeItem("CONTROL");
+                localStorage.removeItem("frmAcces");
+             
+
+                if (typeof (localStorage.urlParent) != "undefined" && localStorage.urlParent.trim() != "") {                    
+                    var strSpl = localStorage.urlParent.split('/')
+                    localStorage.removeItem("urlParent");
+                    location.href = strSpl[0] + "//" + strSpl[2];
+                } else {
+                    location.href = location.origin;
+                }
+
+            });
+
+            $(".__mnuActive").on("click", function () {
+                _ShowLoading();
+            })
+        })
+
+    </script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
